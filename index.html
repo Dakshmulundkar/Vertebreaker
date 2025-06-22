@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>@Daksh_mulundkar</title>
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      font-family: 'Courier New', monospace;
+    }
+
+    canvas {
+      display: block;
+      background: #1a1a1a;
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 0;
+    }
+
+    #start-screen {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: linear-gradient(45deg, #000000, #1a1a1a);
+      z-index: 20;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      font-family: 'Courier New', monospace;
+      color: #00ff00;
+      text-shadow: 2px 2px 4px rgba(0, 255, 0, 0.5);
+    }
+
+    #start-screen h1 {
+      font-size: 4rem;
+      margin: 0;
+      text-transform: uppercase;
+      letter-spacing: 4px;
+      animation: pixelGlow 2s ease-in-out infinite alternate;
+    }
+
+    #start-screen .subtitle {
+      font-size: 1.5rem;
+      margin: 20px 0 40px 0;
+      color: #ffffff;
+      text-align: center;
+    }
+
+    #start-screen button {
+      font-size: 1.5rem;
+      padding: 15px 30px;
+      margin: 10px;
+      border: 3px solid #00ff00;
+      background: transparent;
+      color: #00ff00;
+      cursor: pointer;
+      font-family: 'Courier New', monospace;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    #start-screen button:hover {
+      background: #00ff00;
+      color: #000000;
+      box-shadow: 0 0 20px rgba(0, 255, 0, 0.8);
+    }
+
+    #start-screen button:active {
+      transform: scale(0.95);
+    }
+
+    #game-over-screen {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: linear-gradient(45deg, #000000, #330000);
+      z-index: 10;
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      font-family: 'Courier New', monospace;
+      color: #ff0000;
+      text-shadow: 2px 2px 4px rgba(255, 0, 0, 0.5);
+    }
+
+    #game-over-screen h1 {
+      font-size: 4rem;
+      margin: 0;
+      text-transform: uppercase;
+      letter-spacing: 4px;
+      animation: deathGlow 1s ease-in-out infinite alternate;
+    }
+
+    #game-over-screen .score {
+      font-size: 2rem;
+      margin: 30px 0;
+      color: #ffffff;
+      text-align: center;
+    }
+
+    #game-over-screen .score-value {
+      font-size: 3rem;
+      color: #ff0000;
+      font-weight: bold;
+      margin: 10px 0;
+    }
+
+    #game-over-screen button {
+      font-size: 1.5rem;
+      padding: 15px 30px;
+      margin: 10px;
+      border: 3px solid #ff0000;
+      background: transparent;
+      color: #ff0000;
+      cursor: pointer;
+      font-family: 'Courier New', monospace;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      transition: all 0.3s ease;
+    }
+
+    #game-over-screen button:hover {
+      background: #ff0000;
+      color: #ffffff;
+      box-shadow: 0 0 20px rgba(255, 0, 0, 0.8);
+    }
+
+    #game-over-screen button:active {
+      transform: scale(0.95);
+    }
+
+    .controls {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: #ffffff;
+      text-align: center;
+      font-size: 1rem;
+      z-index: 5;
+    }
+
+    @keyframes pixelGlow {
+      0% { text-shadow: 2px 2px 4px rgba(0, 255, 0, 0.5); }
+      100% { text-shadow: 2px 2px 20px rgba(0, 255, 0, 0.8); }
+    }
+
+    @keyframes deathGlow {
+      0% { text-shadow: 2px 2px 4px rgba(255, 0, 0, 0.5); }
+      100% { text-shadow: 2px 2px 20px rgba(255, 0, 0, 0.8); }
+    }
+
+    .pixel-border {
+      border: 2px solid;
+      border-image: repeating-linear-gradient(
+        45deg,
+        currentColor,
+        currentColor 2px,
+        transparent 2px,
+        transparent 4px
+      ) 2;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="gameCanvas" width="800" height="600"></canvas>
+  <img id="character-sprite" src="./character.png" style="display: none;" />
+  <img id="dino-skull" src="./dino_skull.png" style="display: none;" />
+  <img id="background-image" src="./Dark_Terrain.png" style="display: none;" />
+
+  <div id="start-screen">
+    <h1 class="pixel-border">Vertebreaker</h1>
+    <div class="subtitle">
+      Survive as long as possible!<br>
+      The dinosaur grows stronger over time...
+    </div>
+    <button onclick="startGame()">START GAME</button>
+    <div class="controls">
+      <strong>CONTROLS:</strong><br>
+      WASD or Arrow Keys to move
+    </div>
+  </div>
+
+  <div id="game-over-screen">
+    <h1 class="pixel-border">GAME OVER</h1>
+    <div class="score">
+      <div>Time Survived:</div>
+      <div class="score-value" id="final-score">0s</div>
+      <div style="font-size: 1.5rem; margin-top: 20px; color: #00ff00;" id="best-score">Best: 0s</div>
+    </div>
+    <button onclick="restartGame()">🔁 RESTART</button>
+    <button onclick="backToMenu()">🏠 MAIN MENU</button>
+  </div>
+
+  <script src="./scripts.js"></script>
+</body>
+</html>
