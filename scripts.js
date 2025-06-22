@@ -186,6 +186,11 @@ function startGame() {
   gameState = 'playing';
   document.getElementById("start-screen").style.display = "none";
   
+  // Stop scream audio if playing
+  dinoScreamAudio.pause();
+  dinoScreamAudio.currentTime = 0;
+  screamActive = false;
+  
   // Play game start sound
   gameStartAudio.currentTime = 0;
   gameStartAudio.play();
@@ -227,12 +232,20 @@ function backToMenu() {
   // Stop death audio if playing
   playerDeathAudio.pause();
   playerDeathAudio.currentTime = 0;
+  // Stop scream audio if playing
+  dinoScreamAudio.pause();
+  dinoScreamAudio.currentTime = 0;
+  screamActive = false;
 }
 
 function restartGame() {
   // Stop death audio if playing
   playerDeathAudio.pause();
   playerDeathAudio.currentTime = 0;
+  // Stop scream audio if playing
+  dinoScreamAudio.pause();
+  dinoScreamAudio.currentTime = 0;
+  screamActive = false;
 
   // Play game start sound
   gameStartAudio.currentTime = 0;
@@ -612,6 +625,19 @@ function checkPlayerDeath() {
   const dy = player.y - critter.y;
   const distance = Math.sqrt(dx * dx + dy * dy);
   
+  // Scream logic: play scream if dino is close, let it finish, only stop if player dies
+  if (distance < 100 && player.alive) {
+    if (!screamActive) {
+      dinoScreamAudio.currentTime = 0;
+      dinoScreamAudio.play();
+      screamActive = true;
+      // When scream finishes, reset screamActive
+      dinoScreamAudio.onended = () => {
+        screamActive = false;
+      };
+    }
+  }
+
   if (distance < 150 && player.alive) {
     shakeTime = 5;           // how long it lasts (frames)
     shakeIntensity = 10;     // how strong it shakes
@@ -621,6 +647,12 @@ function checkPlayerDeath() {
     // Play death sound
     playerDeathAudio.currentTime = 0;
     playerDeathAudio.play();
+    // Stop scream if playing
+    if (screamActive) {
+      dinoScreamAudio.pause();
+      // Don't reset currentTime so it can resume if needed
+      screamActive = false;
+    }
     showGameOver(); // ✅ show overlay
   }
 }
@@ -840,6 +872,10 @@ playerDeathAudio.volume = 0.8; // adjust as needed
 // Add audio element for game start
 const gameStartAudio = new Audio('./Roar.mp3');
 gameStartAudio.volume = 0.8; // adjust as needed
+// Add audio element for dino scream
+const dinoScreamAudio = new Audio('./scream.mp3');
+dinoScreamAudio.volume = 0.7; // adjust as needed
+let screamActive = false;
 
 function startSurvivalTimer() {
   if (survivalTimer) {
