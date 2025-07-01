@@ -3,21 +3,24 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>@Daksh_mulundkar</title>
+  <title>Vertebreaker</title>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+    
     body {
       margin: 0;
       overflow: hidden;
-      font-family: 'Courier New', monospace;
+      font-family: 'Press Start 2P', cursive;
+      background: linear-gradient(180deg, #1a0d1a 0%, #0d0d0d 100%);
     }
 
     canvas {
       display: block;
-      background: #1a1a1a;
       position: absolute;
       top: 0;
       left: 0;
       z-index: 0;
+      background: #1a1a1a;
     }
 
     #start-screen {
@@ -26,56 +29,174 @@
       left: 0;
       width: 100vw;
       height: 100vh;
-      background: linear-gradient(45deg, #000000, #1a1a1a);
+      background: linear-gradient(180deg, #2d1b2d 0%, #1a0d1a 50%, #0d0d0d 100%);
       z-index: 20;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      font-family: 'Courier New', monospace;
-      color: #00ff00;
-      text-shadow: 2px 2px 4px rgba(0, 255, 0, 0.5);
+      font-family: 'Press Start 2P', cursive;
+      color: #FFFFFF;
+      overflow: hidden;
+      position: relative;
     }
 
+    /* Spooky floating bones */
+    .bone {
+      position: absolute;
+      color: #f5f5dc;
+      font-size: 2rem;
+      opacity: 0.7;
+      animation: float 4s ease-in-out infinite;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+    }
+
+    .bone1 {
+      top: 20%;
+      left: 10%;
+      animation-delay: 0s;
+    }
+
+    .bone2 {
+      top: 15%;
+      right: 15%;
+      animation-delay: -2s;
+    }
+
+    .bone3 {
+      top: 70%;
+      left: 15%;
+      animation-delay: -1s;
+    }
+
+    .bone4 {
+      top: 75%;
+      right: 20%;
+      animation-delay: -3s;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-20px) rotate(5deg); }
+    }
+
+    /* Spooky title */
     #start-screen h1 {
-      font-size: 4rem;
+      font-size: 3.2rem;
       margin: 0;
       text-transform: uppercase;
-      letter-spacing: 4px;
-      animation: pixelGlow 2s ease-in-out infinite alternate;
+      letter-spacing: 3px;
+      color: #ff6b6b;
+      text-shadow: 
+        3px 3px 0px #8b0000,
+        6px 6px 0px #4a0000,
+        10px 10px 15px rgba(255, 0, 0, 0.5);
+      animation: spookyGlow 2s ease-in-out infinite alternate;
+      text-align: center;
+      line-height: 1.1;
+    }
+
+    @keyframes spookyGlow {
+      0% { 
+        text-shadow: 
+          4px 4px 0px #8b0000,
+          8px 8px 0px #4a0000,
+          12px 12px 20px rgba(255, 0, 0, 0.5);
+      }
+      100% { 
+        text-shadow: 
+          4px 4px 0px #8b0000,
+          8px 8px 0px #4a0000,
+          12px 12px 30px rgba(255, 0, 0, 0.8),
+          0 0 40px rgba(255, 107, 107, 0.6);
+      }
     }
 
     #start-screen .subtitle {
-      font-size: 1.5rem;
-      margin: 20px 0 40px 0;
-      color: #ffffff;
+      font-size: 0.9rem;
+      margin: 20px 0 30px 0;
+      color: #f5f5dc;
       text-align: center;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+      max-width: 500px;
+      line-height: 1.4;
     }
 
-    #start-screen button {
-      font-size: 1.5rem;
-      padding: 15px 30px;
-      margin: 10px;
-      border: 3px solid #00ff00;
-      background: transparent;
-      color: #00ff00;
+    /* Spooky buttons */
+    .spooky-button {
+      font-size: 1rem;
+      padding: 12px 25px;
+      margin: 8px;
+      border: none;
+      background: linear-gradient(180deg, #4a0e4e 0%, #2d0a30 100%);
+      color: #f5f5dc;
       cursor: pointer;
-      font-family: 'Courier New', monospace;
+      font-family: 'Press Start 2P', cursive;
       text-transform: uppercase;
-      letter-spacing: 2px;
-      transition: all 0.3s ease;
+      letter-spacing: 1.5px;
+      border-radius: 6px;
+      box-shadow: 
+        0 5px 0 #1a051c,
+        0 6px 12px rgba(0, 0, 0, 0.5);
+      transition: all 0.1s ease;
       position: relative;
       overflow: hidden;
     }
 
-    #start-screen button:hover {
-      background: #00ff00;
-      color: #000000;
-      box-shadow: 0 0 20px rgba(0, 255, 0, 0.8);
+    .spooky-button:hover {
+      background: linear-gradient(180deg, #5a1e5e 0%, #4a0e4e 100%);
+      transform: translateY(-2px);
+      box-shadow: 
+        0 8px 0 #1a051c,
+        0 12px 20px rgba(0, 0, 0, 0.6);
+      color: #ffffff;
     }
 
-    #start-screen button:active {
-      transform: scale(0.95);
+    .spooky-button:active {
+      transform: translateY(4px);
+      box-shadow: 
+        0 2px 0 #1a051c,
+        0 4px 8px rgba(0, 0, 0, 0.5);
+    }
+
+    .spooky-button.red {
+      background: linear-gradient(180deg, #8b0000 0%, #4a0000 100%);
+      box-shadow: 
+        0 6px 0 #2d0000,
+        0 8px 15px rgba(0, 0, 0, 0.5);
+    }
+
+    .spooky-button.red:hover {
+      background: linear-gradient(180deg, #a00000 0%, #8b0000 100%);
+      box-shadow: 
+        0 8px 0 #2d0000,
+        0 12px 20px rgba(0, 0, 0, 0.6);
+    }
+
+    .spooky-button.red:active {
+      box-shadow: 
+        0 2px 0 #2d0000,
+        0 4px 8px rgba(0, 0, 0, 0.5);
+    }
+
+    .spooky-button.dark {
+      background: linear-gradient(180deg, #333333 0%, #1a1a1a 100%);
+      box-shadow: 
+        0 6px 0 #0d0d0d,
+        0 8px 15px rgba(0, 0, 0, 0.5);
+    }
+
+    .spooky-button.dark:hover {
+      background: linear-gradient(180deg, #444444 0%, #333333 100%);
+      box-shadow: 
+        0 8px 0 #0d0d0d,
+        0 12px 20px rgba(0, 0, 0, 0.6);
+    }
+
+    .spooky-button.dark:active {
+      box-shadow: 
+        0 2px 0 #0d0d0d,
+        0 4px 8px rgba(0, 0, 0, 0.5);
     }
 
     #game-over-screen {
@@ -84,61 +205,167 @@
       left: 0;
       width: 100vw;
       height: 100vh;
-      background: linear-gradient(45deg, #000000, #330000);
       z-index: 10;
       display: none;
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      font-family: 'Courier New', monospace;
-      color: #ff0000;
-      text-shadow: 2px 2px 4px rgba(255, 0, 0, 0.5);
+      font-family: 'Press Start 2P', cursive;
+      color: #FFFFFF;
+      overflow: hidden;
+      position: relative;
     }
 
+    /* Reduced blood splatter frame effect */
+    #game-over-screen::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: 
+        /* Corner blood pools only */
+        radial-gradient(ellipse 40px 35px at 3% 3%, #cc0000 0%, #cc0000 25%, transparent 55%),
+        radial-gradient(ellipse 35px 40px at 97% 3%, #cc0000 0%, #cc0000 25%, transparent 55%),
+        radial-gradient(ellipse 45px 40px at 3% 97%, #cc0000 0%, #cc0000 25%, transparent 55%),
+        radial-gradient(ellipse 40px 45px at 97% 97%, #cc0000 0%, #cc0000 25%, transparent 55%),
+        
+        /* Few edge splatters */
+        radial-gradient(ellipse 20px 15px at 15% 2%, #cc0000 0%, #cc0000 40%, transparent 70%),
+        radial-gradient(ellipse 25px 20px at 85% 3%, #990000 0%, #990000 35%, transparent 65%),
+        radial-gradient(ellipse 18px 22px at 2% 20%, #bb0000 0%, #bb0000 45%, transparent 75%),
+        radial-gradient(ellipse 22px 18px at 98% 25%, #cc0000 0%, #cc0000 40%, transparent 70%),
+        radial-gradient(ellipse 20px 16px at 12% 98%, #990000 0%, #990000 40%, transparent 70%),
+        radial-gradient(ellipse 24px 20px at 88% 97%, #cc0000 0%, #cc0000 35%, transparent 65%),
+        radial-gradient(ellipse 16px 20px at 1% 80%, #bb0000 0%, #bb0000 45%, transparent 75%),
+        radial-gradient(ellipse 20px 24px at 99% 75%, #990000 0%, #990000 40%, transparent 70%),
+        
+        /* Small scattered drops */
+        radial-gradient(circle 4px at 25% 20%, #990000 0%, #990000 60%, transparent 100%),
+        radial-gradient(circle 3px at 75% 15%, #bb0000 0%, #bb0000 70%, transparent 100%),
+        radial-gradient(circle 5px at 20% 85%, #cc0000 0%, #cc0000 50%, transparent 100%),
+        radial-gradient(circle 4px at 80% 90%, #990000 0%, #990000 60%, transparent 100%);
+      
+      pointer-events: none;
+      z-index: -2;
+      animation: subtleBloodPulse 2s ease-in-out infinite;
+    }
+
+    /* Blood frame image overlay - positioned on top */
+    #game-over-screen::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-image: url('./blood-frame.png');
+      background-size: 100% 100%;
+      background-position: center center;
+      background-repeat: no-repeat;
+      opacity: 0.4;
+      pointer-events: none;
+      z-index: 5;
+      animation: subtleBloodPulse 2s ease-in-out infinite;
+    }
+
+    /* Subtle heartbeat pulse animation */
+    @keyframes subtleBloodPulse {
+      0% { 
+        opacity: 0.4;
+        transform: scale(1);
+        filter: brightness(1);
+      }
+      20% { 
+        opacity: 0.5;
+        transform: scale(1.005);
+        filter: brightness(1.1);
+      }
+      40% { 
+        opacity: 0.4;
+        transform: scale(1);
+        filter: brightness(1);
+      }
+      60% { 
+        opacity: 0.55;
+        transform: scale(1.008);
+        filter: brightness(1.15);
+      }
+      80% { 
+        opacity: 0.4;
+        transform: scale(1);
+        filter: brightness(1);
+      }
+      100% { 
+        opacity: 0.4;
+        transform: scale(1);
+        filter: brightness(1);
+      }
+    }
+
+    /* Game Over title */
     #game-over-screen h1 {
-      font-size: 4rem;
+      font-size: 3.5rem;
       margin: 0;
       text-transform: uppercase;
       letter-spacing: 4px;
-      animation: deathGlow 1s ease-in-out infinite alternate;
+      color: #ff6b6b;
+      text-shadow: 
+        4px 4px 0px #8b0000,
+        8px 8px 0px #4a0000,
+        12px 12px 20px rgba(255, 0, 0, 0.7);
+      animation: deathShake 0.5s ease-in-out infinite;
+      text-align: center;
+      line-height: 1.2;
+      z-index: 10;
+      position: relative;
+    }
+
+    @keyframes deathShake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-3px); }
+      75% { transform: translateX(3px); }
+    }
+
+    .score-container {
+      background: rgba(0, 0, 0, 0.8);
+      border: 4px solid #8b0000;
+      border-radius: 12px;
+      padding: 30px;
+      margin: 30px 0;
+      text-align: center;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.7);
+      z-index: 10;
+      position: relative;
     }
 
     #game-over-screen .score {
-      font-size: 2rem;
-      margin: 30px 0;
-      color: #ffffff;
+      font-size: 1.2rem;
+      margin: 10px 0;
+      color: #f5f5dc;
       text-align: center;
     }
 
     #game-over-screen .score-value {
-      font-size: 3rem;
-      color: #ff0000;
+      font-size: 2.5rem;
+      color: #ff6b6b;
       font-weight: bold;
-      margin: 10px 0;
+      margin: 15px 0;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
     }
 
-    #game-over-screen button {
-      font-size: 1.5rem;
-      padding: 15px 30px;
-      margin: 10px;
-      border: 3px solid #ff0000;
-      background: transparent;
-      color: #ff0000;
-      cursor: pointer;
-      font-family: 'Courier New', monospace;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      transition: all 0.3s ease;
+    #game-over-screen .best-score {
+      font-size: 1rem;
+      margin-top: 20px;
+      color: #9370db;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
     }
 
-    #game-over-screen button:hover {
-      background: #ff0000;
-      color: #ffffff;
-      box-shadow: 0 0 20px rgba(255, 0, 0, 0.8);
-    }
-
-    #game-over-screen button:active {
-      transform: scale(0.95);
+    /* Ensure buttons are above blood overlay */
+    #game-over-screen .spooky-button {
+      z-index: 10;
+      position: relative;
     }
 
     .controls {
@@ -146,31 +373,118 @@
       bottom: 20px;
       left: 50%;
       transform: translateX(-50%);
-      color: #ffffff;
+      color: #f5f5dc;
       text-align: center;
-      font-size: 1rem;
+      font-size: 0.6rem;
       z-index: 5;
+      background: rgba(0, 0, 0, 0.8);
+      padding: 15px 20px;
+      border-radius: 8px;
+      border: 2px solid #8b0000;
+      max-width: 90vw;
+      box-sizing: border-box;
     }
 
-    @keyframes pixelGlow {
-      0% { text-shadow: 2px 2px 4px rgba(0, 255, 0, 0.5); }
-      100% { text-shadow: 2px 2px 20px rgba(0, 255, 0, 0.8); }
+    .controls strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 0.7rem;
     }
 
-    @keyframes deathGlow {
-      0% { text-shadow: 2px 2px 4px rgba(255, 0, 0, 0.5); }
-      100% { text-shadow: 2px 2px 20px rgba(255, 0, 0, 0.8); }
+    .gem-legend {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      margin: 8px 0;
+      align-items: center;
     }
 
-    .pixel-border {
-      border: 2px solid;
-      border-image: repeating-linear-gradient(
-        45deg,
-        currentColor,
-        currentColor 2px,
-        transparent 2px,
-        transparent 4px
-      ) 2;
+    .gem-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.55rem;
+      line-height: 1.2;
+    }
+
+    .gem-icon {
+      width: 12px;
+      height: 12px;
+      flex-shrink: 0;
+    }
+
+    /* Spooky skulls animation */
+    .skull {
+      position: absolute;
+      font-size: 1.5rem;
+      color: #f5f5dc;
+      animation: skullFloat 3s ease-in-out infinite;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+    }
+
+    .skull1 { top: 30%; left: 20%; animation-delay: 0s; }
+    .skull2 { top: 25%; right: 25%; animation-delay: 0.5s; }
+    .skull3 { top: 70%; left: 15%; animation-delay: 1s; }
+    .skull4 { top: 75%; right: 20%; animation-delay: 1.5s; }
+
+    @keyframes skullFloat {
+      0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 0.7; }
+      50% { transform: translateY(-15px) rotate(10deg); opacity: 1; }
+    }
+
+    /* Tombstones */
+    .tombstone {
+      position: absolute;
+      width: 30px;
+      height: 40px;
+      background: #555555;
+      border-radius: 15px 15px 0 0;
+      border: 2px solid #333333;
+      animation: tombstoneGlow 4s ease-in-out infinite;
+    }
+
+    .tombstone::after {
+      content: '✝';
+      position: absolute;
+      top: 5px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: #8b0000;
+      font-size: 1rem;
+    }
+
+    .tombstone1 { top: 40%; left: 5%; animation-delay: 0s; }
+    .tombstone2 { top: 60%; right: 8%; animation-delay: 2s; }
+
+    @keyframes tombstoneGlow {
+      0%, 100% { box-shadow: 0 0 5px rgba(139, 0, 0, 0.3); }
+      50% { box-shadow: 0 0 15px rgba(139, 0, 0, 0.7); }
+    }
+
+    /* Responsive design */
+    @media (max-width: 768px) {
+      #start-screen h1 {
+        font-size: 2.5rem;
+      }
+      
+      #game-over-screen h1 {
+        font-size: 2.5rem;
+      }
+      
+      .spooky-button {
+        font-size: 1rem;
+        padding: 12px 24px;
+      }
+      
+      .controls {
+        font-size: 0.5rem;
+        padding: 10px 15px;
+        max-width: 95vw;
+      }
+
+      .gem-item {
+        font-size: 0.5rem;
+      }
     }
   </style>
 </head>
@@ -178,30 +492,56 @@
   <canvas id="gameCanvas" width="800" height="600"></canvas>
   <img id="character-sprite" src="./character.png" style="display: none;" />
   <img id="dino-skull" src="./dino_skull.png" style="display: none;" />
-  <img id="background-image" src="./Dark_Terrain.png" style="display: none;" />
 
   <div id="start-screen">
-    <h1 class="pixel-border">Vertebreaker</h1>
+    <!-- Spooky decorative elements -->
+    <div class="bone bone1">🦴</div>
+    <div class="bone bone2">🦴</div>
+    <div class="bone bone3">🦴</div>
+    <div class="bone bone4">🦴</div>
+    <div class="skull skull1">💀</div>
+    <div class="skull skull2">💀</div>
+    <div class="skull skull3">💀</div>
+    <div class="skull skull4">💀</div>
+    <div class="tombstone tombstone1"></div>
+    <div class="tombstone tombstone2"></div>
+
+    <h1>VERTEBREAKER</h1>
     <div class="subtitle">
-      Survive as long as possible!<br>
-      The dinosaur grows stronger over time...
+      💀 Survive as long as possible! 💀<br>
+      The ancient beast grows stronger over time...<br>
+      Collect gems for special powers!
     </div>
-    <button onclick="startGame()">START GAME</button>
+    <button class="spooky-button" onclick="startGame()">🎮 BEGIN NIGHTMARE</button>
     <div class="controls">
-      <strong>CONTROLS:</strong><br>
-      WASD or Arrow Keys to move
+      <strong>⚰️ CONTROLS ⚰️</strong>
+      <div>WASD or Arrow Keys to move</div>
+      <div class="gem-legend">
+        <div class="gem-item">
+          <canvas class="gem-icon" id="blue-gem-icon" width="12" height="12"></canvas>
+          <span>Freeze Dino (5s)</span>
+        </div>
+        <div class="gem-item">
+          <canvas class="gem-icon" id="red-gem-icon" width="12" height="12"></canvas>
+          <span>Speed Boost (15s)</span>
+        </div>
+        <div class="gem-item">
+          <canvas class="gem-icon" id="purple-gem-icon" width="12" height="12"></canvas>
+          <span>Teleport Away</span>
+        </div>
+      </div>
     </div>
   </div>
 
   <div id="game-over-screen">
-    <h1 class="pixel-border">GAME OVER</h1>
-    <div class="score">
-      <div>Time Survived:</div>
+    <h1>GAME OVER</h1>
+    <div class="score-container">
+      <div class="score">⏱️ TIME SURVIVED ⏱️</div>
       <div class="score-value" id="final-score">0s</div>
-      <div style="font-size: 1.5rem; margin-top: 20px; color: #00ff00;" id="best-score">Best: 0s</div>
+      <div class="best-score" id="best-score">👑 Best: 0s</div>
     </div>
-    <button onclick="restartGame()">🔁 RESTART</button>
-    <button onclick="backToMenu()">🏠 MAIN MENU</button>
+    <button class="spooky-button red" onclick="restartGame()">🔄 RISE AGAIN</button>
+    <button class="spooky-button dark" onclick="backToMenu()">🏠 ESCAPE</button>
   </div>
 
   <script src="./scripts.js"></script>
