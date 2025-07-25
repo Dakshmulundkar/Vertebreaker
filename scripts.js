@@ -1409,7 +1409,7 @@ function startGameLoop() {
 // === INITIALIZE THE CREATURE ===
 function getIncrementalSize() {
   if (typeof baseSize === "undefined") {
-    baseSize = 5
+    baseSize = 3
   }
   return baseSize
 }
